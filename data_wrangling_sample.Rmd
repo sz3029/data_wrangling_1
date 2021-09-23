@@ -94,4 +94,16 @@ pulse_df = read_sas("data/public_pulse_data.sas7bdat")
 pulse_df
 ```
 
+## why not use `read.csv`
+* It import data as data.frame rather than tibble
+* Read the data as factor vector
+```{r}
+litters_df_base = read.csv("data/FAS_litters.csv")
+```
+
+## Exporting data
+```{r}
+write_csv(fellow_df, "data/fellowship_words.csv")
+```
+
 
