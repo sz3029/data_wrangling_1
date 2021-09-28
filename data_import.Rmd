@@ -30,92 +30,30 @@ select(litters_df, GROUP = group, litter_number)
 rename(litters_df, GROUP = group)
 
 # keep everything
-select(litters_df, litter_number, everything)
+#select(litters_df, litter_number, everything)
 relocate(litters_df, litter_number)
-select(pups_df, litter_number, sex, pd_ears)
+#select(pups_df, litter_number, sex, pd_ears)
 ```
 
-Better names!
+## Filter
+Let's get rid of rows
 
 ```{r}
-litters_df
+filter(litters_df, gd_of_birth == 20)
+
+filter(litters_df, pups_survive == 4)
+
+filter(litters_df, group %in% c("Con7", "Con8"))
+
+filter(litters_df, !(group == 'Con7'), gd_of_birth == 20)
+
+#drop_na(litters_df), drop all the rows with na values
+drop_na(litters_df, gd0_weight)
 ```
 
+## Mutate
+Let's add or change column
 ```{r}
-head(litters_df)
-tail(litters_df)
+mutate(litters_df, weight_change = gd18_weight - gd0_weight)
 ```
-
-One I use a lot is:
-```{r, eval=FALSE}
-view(litters_df)
-```
-
-Here's `skimr`:
-```{r}
-skimr::skim(litters_df)
-```
-
-## Arguments in `read_csv`
-
-```{r, eval = FALSE}
-litters_df = 
-  read_csv(
-    "data/FAS_litters.csv",
-    skip = 5,
-    col_names = FALSE,
-    na = "Low8")
-litters_df
-```
-
-## Parsing columns
-```{r}
-litters_data = read_csv(file = "./data/FAS_litters.csv",
-  col_types = cols(
-    Group = col_character(),
-    `Litter Number` = col_character(),
-    `GD0 weight` = col_double(),
-    `GD18 weight` = col_double(),
-    `GD of Birth` = col_integer(),
-    `Pups born alive` = col_integer(),
-    `Pups dead @ birth` = col_integer(),
-    `Pups survive` = col_integer()
-  )
-)
-
-## Just correct one column name
-## litters_data = read_csv(file = "./data/FAS_litters.csv",
-#   col_types = cols(Group = col_character())
-```
-
-## Reading from excel
-
-Reading MLB dataset
-```{r}
-mlb11_df = read_excel("data/mlb11.xlsx")
-mlb11_df
-```
-### Read in a section
-```{r}
-fellow_df = read_excel("data/LotR_Words.xlsx", range = "B3:D6")
-fellow_df
-```
-## Read a SAS file
-```{r, eval = FALSE}
-pulse_df = read_sas("data/public_pulse_data.sas7bdat")
-pulse_df
-```
-
-## why not use `read.csv`
-* It import data as data.frame rather than tibble
-* Read the data as factor vector
-```{r}
-litters_df_base = read.csv("data/FAS_litters.csv")
-```
-
-## Exporting data
-```{r}
-write_csv(fellow_df, "data/fellowship_words.csv")
-```
-
 
