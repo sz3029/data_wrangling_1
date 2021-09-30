@@ -21,13 +21,19 @@ pulse_df
 ```
 
 ```{r tidy_1}
-pulse_df <-
+pulse_tidy <-
   pulse_df %>%
   pivot_longer(
     bdi_score_bl:bdi_score_12m,
     names_to = "visit",
+    names_prefix = "bdi_score_",
     values_to = "bdi"
+  ) %>%
+  mutate(
+    visit = replace(visit, visit == "bl", "00m"),
+    visit = factor(visit)
   )
+pulse_tidy
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
