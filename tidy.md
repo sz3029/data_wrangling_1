@@ -58,5 +58,42 @@ pulse_tidy
     ## 10 10022  58.5 male  01m       3
     ## # … with 4,338 more rows
 
-Note that the `echo = FALSE` parameter was added to the code chunk to
-prevent printing of the R code that generated the plot.
+## pivot\_wider
+
+make up a result data table
+
+``` r
+analysis_df <-
+  tibble(
+    group = c("treatment", "treatment", "control", "control"),
+    time = c("a","b","a","b"),
+    group_mean = c(4, 8, 3, 6)
+  )
+analysis_df %>%
+  pivot_wider(
+    names_from = "time",
+    values_from = "group_mean"
+  ) %>%
+  knitr::kable()
+```
+
+| group     |   a |   b |
+|:----------|----:|----:|
+| treatment |   4 |   8 |
+| control   |   3 |   6 |
+
+## Bind rows
+
+``` r
+fellowship_ring = 
+  readxl::read_excel("./data/LotR_Words.xlsx", range = "B3:D6") %>%
+  mutate(movie = "fellowship_ring")
+
+two_towers = 
+  readxl::read_excel("./data/LotR_Words.xlsx", range = "F3:H6") %>%
+  mutate(movie = "two_towers")
+
+return_king = 
+  readxl::read_excel("./data/LotR_Words.xlsx", range = "J3:L6") %>%
+  mutate(movie = "return_king")
+```
